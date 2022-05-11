@@ -1,9 +1,10 @@
 import requests
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
+import os
 
 BASE = "http://127.0.0.1:5000/"
+API_PRIVATE_KEY=str(os.environ.get('API_PRIVATE_KEY'))
 
-user_wallet = "0x306a430f0e361e96e69d650067eba3f73307b5c4"
-rewards = 2
-
-response = requests.get(BASE + "winner")
+response = requests.get(BASE + "winner/"+API_PRIVATE_KEY)
 print(response.json())
