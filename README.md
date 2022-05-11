@@ -9,4 +9,5 @@ Please install or have installed the following:
 - python
 
 # Use
+Open a command prompt 
 Provice the *block_init* and the *api_key* in the input. The call will be made
