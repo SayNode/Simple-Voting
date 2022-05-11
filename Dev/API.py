@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 import vechain_txs 
-import encrypt_key
+import decrypt_key
 from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
 import os
@@ -14,9 +14,9 @@ class Form(Resource):
 	
 	def get(self, block_ini, API_KEY):
 		
-		if encrypt_key.decryptData(API_KEY) == API_PRIVATE_KEY:
-			vechain_txs.main(block_ini)
-			return "Done"
+		if decrypt_key.decryptData(API_KEY) == API_PRIVATE_KEY:
+			
+			return vechain_txs.main(block_ini)
 		return abort(400, "Incorrect API Key")
 
 
