@@ -68,11 +68,9 @@ def winner( yes_ballot_address, no_ballot_address, block_init, block_final ):
     return "The voting ended in a tie"
 
 
-def main():
+def main(block_ini):
 
     yes_ballot_address = '0x2652000025cDb4bc1A9296117F0EEF8cf14b5f3b'
     no_ballot_address = '0x54E09Bf67B215f2Bbe8c33310148d2f070a66218'
 
-    print(winner(yes_ballot_address,  no_ballot_address,0, latest_block()))
-
-main()
+    print(winner(yes_ballot_address,  no_ballot_address,block_ini, latest_block()))

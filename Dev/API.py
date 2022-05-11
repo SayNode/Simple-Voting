@@ -12,15 +12,15 @@ API_PRIVATE_KEY=str(os.environ.get('API_PRIVATE_KEY'))
 
 class Form(Resource):
 	
-	def get(self, API_KEY):
+	def get(self, block_ini, API_KEY):
 		
 		if encrypt_key.decryptData(API_KEY) == API_PRIVATE_KEY:
-			vechain_txs.main()
+			vechain_txs.main(block_ini)
 			return "Done"
-		return "Incorrect API Key"
+		return abort(400, "Incorrect API Key")
 
 
-api.add_resource(Form, "/winner/<string:API_KEY>")
+api.add_resource(Form, "/winner/<int:block_ini>/<string:API_KEY>")
 
 if __name__ == "__main__":
 	app.run()
