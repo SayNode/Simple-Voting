@@ -25,4 +25,3 @@ Please install or have installed the following:
 # Use
 Open a command prompt 
 Provice the *block_init* and the *api_key* in the input. The call will be made
->>>>>>> 575f75f9c605db1d1f7af1c88cbeff67fb2baea6
