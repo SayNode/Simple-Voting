@@ -8,7 +8,6 @@ Please install or have installed the following:
 - nodejs and npm
 - python
 
-<<<<<<< HEAD
 # Dev Folder
 - Represents the actual API
 - Will be uploaded to AWS
@@ -21,7 +20,7 @@ Please install or have installed the following:
 > python test_API.py
 - Input in the terminal the beggining block
 - You will get the response
-=======
+
 # Use
 Open a command prompt 
 Provice the *block_init* and the *api_key* in the input. The call will be made
