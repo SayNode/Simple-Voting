@@ -6,14 +6,7 @@ import requests
 import json
 import time
 
-#Connect to Veblocks and import the DHN contract
-def init():
-
-    connector = Connect("https://testnet.veblocks.net")
-
-    return connector
-
-
+#Get the latest block number
 def latest_block():
     headers = {
     'accept': 'application/json',
@@ -62,9 +55,11 @@ def get_unique_votes(ballot_address, block_init, block_final):
     return len(voters)
 
 def winner( yes_ballot_address, no_ballot_address, block_init, block_final ):
+    #Get unique votes for each of the ballot wallets
     yes = get_unique_votes(yes_ballot_address, block_init, block_final)
     no = get_unique_votes(no_ballot_address, block_init, block_final)
 
+    # Announce who won
     if yes>no:
         return "The proposal is approved"
     elif no>yes:
@@ -74,8 +69,6 @@ def winner( yes_ballot_address, no_ballot_address, block_init, block_final ):
 
 
 def main():
-    print("------------------Connect to Veblocks------------------")
-    connector=init()
 
     yes_ballot_address = '0x2652000025cDb4bc1A9296117F0EEF8cf14b5f3b'
     no_ballot_address = '0x54E09Bf67B215f2Bbe8c33310148d2f070a66218'

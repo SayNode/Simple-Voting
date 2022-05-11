@@ -7,12 +7,12 @@ api = Api(app)
 
 class Form(Resource):
 	
-	def get(self, wallet_id, reward):
-		vechain_txs.main(wallet_id,reward)
-		return reward+" DHN tokens were awarded to the following wallet address: "+ wallet_id
+	def get(self):
+		vechain_txs.main()
+		return "Done"
 
 
-api.add_resource(Form, "/form/<string:wallet_id>/<string:reward>")
+api.add_resource(Form, "/winner")
 
 if __name__ == "__main__":
 	app.run(debug=True)
