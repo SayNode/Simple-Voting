@@ -43,6 +43,7 @@ def get_unique_votes(ballot_address, block_init, block_final):
     }
 
     # Get all txs of money (aka votes) to the specific ballot wallet
+    #https://mainnet.veblocks.net/logs/transfer
     response = requests.post('https://testnet.veblocks.net/logs/transfer', headers=headers, json=json_data)
 
     # Gets the unique voter from the collected data
