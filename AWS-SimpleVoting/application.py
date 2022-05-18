@@ -7,17 +7,22 @@ import os
 
 application = Flask(__name__)
 api = Api(application)
-API_PRIVATE_KEY=str(os.environ.get('API_PRIVATE_KEY'))
+
+@application.route('/')
+def index():
+    return 'Unidentified API'
 
 class Form(Resource):
 	
-	def get(self, block_ini, API_KEY):
-			
-		return vechain_txs.main(block_ini)
+	def get(self, block_ini, block_end, api_key):
+		PRIVATE_KEY = str(os.environ.get('PRIVATE_KEY'))
+		if PRIVATE_KEY != api_key:
+			abort(401, message="Wrong API key")	
+		return vechain_txs.main(block_ini, block_end)
 		
 
 
-api.add_resource(Form, "/winner/<int:block_ini>/<string:API_KEY>")
+api.add_resource(Form, "/winner/<int:block_ini>/<int:block_end>/<string:API_KEY>")
 
 if __name__ == "__main__":
 	application.run()
