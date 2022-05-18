@@ -55,10 +55,14 @@ def get_unique_votes(ballot_address, block_init, block_final):
 
     return len(voters)
 
-def winner( yes_ballot_address, no_ballot_address, block_init, block_final ):
+def winner(yes_ballot_address, no_ballot_address, block_init, block_final):
+    #If there is no specified last block, than the last block processed is considered the last one
+    if block_final=="None":
+        block_final = latest_block()
+
     #Get unique votes for each of the ballot wallets
-    yes = get_unique_votes(yes_ballot_address, block_init, block_final)
-    no = get_unique_votes(no_ballot_address, block_init, block_final)
+    yes = get_unique_votes(yes_ballot_address, int(block_init), int(block_final))
+    no = get_unique_votes(no_ballot_address, int(block_init), int(block_final))
 
     # Announce who won
     if yes>no:
@@ -74,5 +78,7 @@ def main(block_ini, block_end):
     yes_ballot_address = '0x2652000025cDb4bc1A9296117F0EEF8cf14b5f3b'
     no_ballot_address = '0x54E09Bf67B215f2Bbe8c33310148d2f070a66218'
 
-    return winner(yes_ballot_address,  no_ballot_address, block_ini, block_end = latest_block())
- 
+    return winner(yes_ballot_address,  no_ballot_address, block_ini, block_end)
+block_init = input("Input the beggining block:")
+block_end=input("Input the final block (if you wish to use the last processed block write 'None'):")
+print(main(block_init,block_end))
