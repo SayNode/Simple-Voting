@@ -3,8 +3,6 @@ from thor_requests.wallet import Wallet
 from thor_requests.contract import Contract
 from decouple import config
 import requests
-import json
-import time
 
 #Get the latest block number
 def latest_block():

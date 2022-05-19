@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
 import os
 
-BASE = "http://127.0.0.1:5000/"
+BASE = "https://simplevoteapi-env.eba-qmpvtfpj.eu-central-1.elasticbeanstalk.com/"
 API_PRIVATE_KEY=str(os.environ.get('API_PRIVATE_KEY'))
 
 """ block_init = input("Input the beggining block:")

@@ -15,7 +15,7 @@ def index():
 class Form(Resource):
 	
 	def get(self, block_ini, block_end, api_key):
-		PRIVATE_KEY = str(os.environ.get('API_PRIVATE_KEY'))
+		PRIVATE_KEY = str(os.environ['API_PRIVATE_KEY'])
 		if PRIVATE_KEY != api_key:
 			abort(401, message="Wrong API key")	
 		return vechain_txs.main(block_ini, block_end)
