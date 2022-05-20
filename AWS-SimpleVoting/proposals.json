@@ -1,0 +1,16 @@
+{
+    "proposals": {
+        "1": {
+            "desc": "New website",
+            "yes_wallet": "0xb84b3a197736ca4abdce55d5fabbc46912d0a715",
+            "no_wallet": "0x1dea3b8938d4b50be65c5a2115d8acda360d13c7",
+            "status": "On-going"
+        },
+        "2": {
+            "desc": "New Voting System",
+            "yes_wallet": "0x3410a56ef732186b11827138479b8beb347408df",
+            "no_wallet": "0x3a1fdac52c8921a3fb52386a735c4770fe457fb9",
+            "status": "On-going"
+        }
+    }
+}
