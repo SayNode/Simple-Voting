@@ -5,6 +5,7 @@ from thor_requests.contract import Contract
 from decouple import config
 import requests
 import json
+import uuid
 
 minAmount = 2
 #Connect to Veblocks and import the DHN contract
@@ -32,7 +33,7 @@ def get_balance(connector,_contract, DHN_contract_address, wallet_address):
     return balance_one["decoded"]["0"]
 
 #Create Wallets
-def create_wallets():
+def overwrite_json():
 
     # Writing to sample.json
     with open('proposals.json', 'r+') as f:
@@ -42,10 +43,9 @@ def create_wallets():
             data = json.load(f)
             yes_wallet = Wallet.newWallet().getAddress() # Create a random walle
             no_wallet = Wallet.newWallet().getAddress() # Create a random walle
-            print(yes_wallet)
-            print(no_wallet)
             data['proposals'][str(proposal)]['yes_wallet'] = yes_wallet # <--- add `id` value.
             data['proposals'][str(proposal)]['no_wallet'] = no_wallet # <--- add `id` value.
+            data['proposals'][str(proposal)]['id'] = str(uuid.uuid4()) # <--- add `id` value.
             f.seek(0)        # <--- should reset file position to the beginning.
             json.dump(data, f, indent=4)
             f.truncate()     # remove remaining part
@@ -125,6 +125,6 @@ def main():
 
     yes_ballot_address = '0x2652000025cDb4bc1A9296117F0EEF8cf14b5f3b'
     no_ballot_address = '0x54E09Bf67B215f2Bbe8c33310148d2f070a66218'
-    create_wallets()
+    overwrite_json()
     
 main()

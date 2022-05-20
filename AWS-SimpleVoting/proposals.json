@@ -2,14 +2,16 @@
     "proposals": {
         "1": {
             "desc": "New website",
-            "yes_wallet": "0xb84b3a197736ca4abdce55d5fabbc46912d0a715",
-            "no_wallet": "0x1dea3b8938d4b50be65c5a2115d8acda360d13c7",
+            "id": "fd65159b-4016-48e1-b342-db401ef03c5a",
+            "yes_wallet": "0x8ab122e4b978c6cedae68aefe59209b684f4bf20",
+            "no_wallet": "0x665bef70b181b9fa40a5f6bb14497bdcbbd7481a",
             "status": "On-going"
         },
         "2": {
             "desc": "New Voting System",
-            "yes_wallet": "0x3410a56ef732186b11827138479b8beb347408df",
-            "no_wallet": "0x3a1fdac52c8921a3fb52386a735c4770fe457fb9",
+            "id": "44349a26-160c-49b8-a7ca-42f85e50530d",
+            "yes_wallet": "0x18ce345bd1fb554aa68be6f1388dfcde71ce2a7a",
+            "no_wallet": "0x0507fd02f57e2e63f3d62e9c4a5bf05765ac424c",
             "status": "On-going"
         }
     }
