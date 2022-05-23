@@ -49,7 +49,9 @@ def overwrite_json():
             f.seek(0)        # <--- should reset file position to the beginning.
             json.dump(data, f, indent=4)
             f.truncate()     # remove remaining part
-
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        return json.dump(data, f, indent=4)
 #Get the latest block number
 def latest_block():
     headers = {
@@ -80,17 +82,24 @@ def get_unique_votes(connector,_contract, DHN_contract_address, ballot_address, 
         },
         'criteriaSet': [
             {
-                'recipient': ballot_address,
+                'sender': ballot_address,
             },
         ],
         'order': 'asc'
     }
-
+    response = requests.get('https://testnet.veblocks.net/accounts/0x5959d60345ab12befe24bd8d21ef53eba7688f6d/transactions', headers=headers, json=json_data)
+    print(json.dumps(response.json(), indent=4, sort_keys=True))
     # Get all txs of money (aka votes) to the specific ballot wallet
     #https://mainnet.veblocks.net/logs/transfer
-    response = requests.post('https://testnet.veblocks.net/logs/transfer', headers=headers, json=json_data)
-
-    # Gets the unique voter from the collected data
+  
+"""     response = requests.post('https://testnet.veblocks.net/logs/transfer', headers=headers, json=json_data)
+    #print(json.dumps(response.json()[0], indent=4, sort_keys=True))
+    txID=str(response.json()[0]["meta"]["txID"])
+    print(txID)
+    response2 = requests.get('https://testnet.veblocks.net/transactions/'+ txID, headers=headers, json=json_data)
+    print(json.dumps(response2.json(), indent=4, sort_keys=True)) """
+    
+"""     # Gets the unique voter from the collected data
     for i in response.json():
         exists = i['sender'] not in voters
 
@@ -98,7 +107,10 @@ def get_unique_votes(connector,_contract, DHN_contract_address, ballot_address, 
         if exists and get_balance(connector,_contract, DHN_contract_address, i['sender'])>minAmount:
             voters.append(i['sender'])
 
-    return len(voters)
+    return len(voters) """
+
+def getWallets(id):
+    print("hello")
 
 def winner(yes_ballot_address, no_ballot_address, block_init, block_final):
     #Connect
@@ -127,4 +139,7 @@ def main():
     no_ballot_address = '0x54E09Bf67B215f2Bbe8c33310148d2f070a66218'
     overwrite_json()
     
-main()
+#main()
+(connector,_contract, DHN_contract_address)=init()
+#get_unique_votes(connector,_contract, DHN_contract_address, '0x5959D60345aB12befE24bd8d21EF53eBa7688f6D', 0, latest_block())
+print(overwrite_json())
