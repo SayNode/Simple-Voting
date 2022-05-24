@@ -8,7 +8,9 @@ import json
 import uuid
 
 minAmount = 2
+#
 #Connect to Veblocks and import the DHN contract
+#
 def init():
     print("------------------Connect to Veblocks------------------\n")
     #https://mainnet.veblocks.net
@@ -20,9 +22,10 @@ def init():
     DHN_contract_address = '0x0867dd816763BB18e3B1838D8a69e366736e87a1'
     return connector, _contract, DHN_contract_address
 
+#
 #Get balance
+#
 def get_balance(connector,_contract, DHN_contract_address, wallet_address):
-    print("Wallet "+ wallet_address+" DHN balance:")
     balance_one = connector.call(
         caller=wallet_address, # fill in your caller address or all zero address
         contract=_contract,
@@ -30,29 +33,45 @@ def get_balance(connector,_contract, DHN_contract_address, wallet_address):
         func_params=[wallet_address],
         to=DHN_contract_address,
     )
+    print("Wallet "+ wallet_address+" DHN balance:" + str(balance_one["decoded"]["0"]))
     return balance_one["decoded"]["0"]
 
-#Create Wallets
+#
+# Overwrites the provided JSON file
+#
 def overwrite_json():
 
-    # Writing to sample.json
+    # Opens the json file
     with open('proposals.json', 'r+') as f:
         data = json.load(f)
+        # If the file has already been over writte, it ends the function
+        if data['proposals']['1']['yes_wallet'] != "":
+            return "Already overwritten"
+
+    # For each proposal inside the json file
     for proposal in data['proposals']:
         with open('proposals.json', 'r+') as f:
             data = json.load(f)
+            #Generate yes and no adresses for each proposal
             yes_wallet = Wallet.newWallet().getAddress() # Create a random walle
             no_wallet = Wallet.newWallet().getAddress() # Create a random walle
-            data['proposals'][str(proposal)]['yes_wallet'] = yes_wallet # <--- add `id` value.
-            data['proposals'][str(proposal)]['no_wallet'] = no_wallet # <--- add `id` value.
-            data['proposals'][str(proposal)]['id'] = str(uuid.uuid4()) # <--- add `id` value.
+            data['proposals'][str(proposal)]['yes_wallet'] = yes_wallet 
+            data['proposals'][str(proposal)]['no_wallet'] = no_wallet 
+            # Generate random ID for each proposal
+            data['proposals'][str(proposal)]['id'] = str(uuid.uuid4()) 
+            # Just to look good
             f.seek(0)        # <--- should reset file position to the beginning.
             json.dump(data, f, indent=4)
             f.truncate()     # remove remaining part
+    
+    # Return the overwritten JSON file so it can be used to be called by the front end
     with open('proposals.json', 'r+') as f:
         data = json.load(f)
-        return json.dump(data, f, indent=4)
-#Get the latest block number
+        return json.dumps(data)
+
+#
+# Get the latest block number
+#
 def latest_block():
     headers = {
     'accept': 'application/json',
@@ -61,58 +80,81 @@ def latest_block():
     response = requests.get('https://testnet.veblocks.net/blocks/best', headers=headers)
     return response.json()["number"]
 
-#Get votes
+#
+#Get unique votes of a wallet address
+#
 def get_unique_votes(connector,_contract, DHN_contract_address, ballot_address, block_init, block_final):
     
+    #Removes the "0x" from the address
+    ballot_address = ballot_address[2:]
+
+    #Will store the voters addresses
     voters = []
 
+    #Request headers
     headers = {
         'accept': 'application/json'
     }
 
     json_data = {
-        'range': {
-            'unit': 'block',
-            'from': block_init,
-            'to': block_final,
+        "range": {
+            "unit": "block",
+            "from": block_init,
+            "to": block_final
         },
-        'options': {
-            'offset': 0,
-            'limit': 10,
+        "options": {
+            "offset": 0,
+            "limit": 10000000000
         },
-        'criteriaSet': [
+        "criteriaSet": [
             {
-                'sender': ballot_address,
-            },
+                "address": DHN_contract_address,
+                "topic2": "0x000000000000000000000000"+ballot_address
+            }
         ],
-        'order': 'asc'
+        "order": "asc"
     }
-    response = requests.get('https://testnet.veblocks.net/accounts/0x5959d60345ab12befe24bd8d21ef53eba7688f6d/transactions', headers=headers, json=json_data)
-    print(json.dumps(response.json(), indent=4, sort_keys=True))
+
     # Get all txs of money (aka votes) to the specific ballot wallet
     #https://mainnet.veblocks.net/logs/transfer
-  
-"""     response = requests.post('https://testnet.veblocks.net/logs/transfer', headers=headers, json=json_data)
-    #print(json.dumps(response.json()[0], indent=4, sort_keys=True))
-    txID=str(response.json()[0]["meta"]["txID"])
-    print(txID)
-    response2 = requests.get('https://testnet.veblocks.net/transactions/'+ txID, headers=headers, json=json_data)
-    print(json.dumps(response2.json(), indent=4, sort_keys=True)) """
+    response = requests.post('https://testnet.veblocks.net/logs/event', headers=headers, json=json_data)
+
+    # Goes through all the DHN txs the ballot (topic2) received
+    for i in range(len(response.json())):
+        # Removes the zeros
+        voter = "0x"+response.json()[i]["topics"][1][26:]
+
+        #Sees if the voter has already voted (aka if the address is already in the array)
+        doesnt_exist = voter not in voters
+
+        #If the voter hasn't voted and has the suffcient balance of DHN
+        if doesnt_exist and get_balance(connector,_contract, DHN_contract_address, voter)>minAmount:
+            voters.append(voter)
+
+    return len(voters)
+
+#Gets the yes and no ballot wallets for a specific proposal ID
+def getWallets(proposal_id):
+    # Opens the json file
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        # If the file has already been over writte, it ends the function
+        if data['proposals']['1']['yes_wallet'] == "":
+            return "Needs to be overwritten first"
+
+    # For each proposal inside the json file
+    for proposal in data['proposals']:
+        with open('proposals.json', 'r+') as f:
+            data = json.load(f)
+            #Get the proposal with the ID we want
+            if data['proposals'][str(proposal)]['id'] ==  proposal_id:
+                yes_wallet = data['proposals'][str(proposal)]['yes_wallet']
+                no_wallet = data['proposals'][str(proposal)]['no_wallet']
+                return yes_wallet, no_wallet
     
-"""     # Gets the unique voter from the collected data
-    for i in response.json():
-        exists = i['sender'] not in voters
+    return "No proposal found with the id: "+ proposal_id
 
-        #If this wallet address hasn't been registered and the wallet balance of DHN is greater then the minimum amount
-        if exists and get_balance(connector,_contract, DHN_contract_address, i['sender'])>minAmount:
-            voters.append(i['sender'])
-
-    return len(voters) """
-
-def getWallets(id):
-    print("hello")
-
-def winner(yes_ballot_address, no_ballot_address, block_init, block_final):
+def winner(proposal_id, block_init, block_final):
     #Connect
     (connector, _contract, DHN_contract_address) = init()
 
@@ -120,6 +162,9 @@ def winner(yes_ballot_address, no_ballot_address, block_init, block_final):
     if block_final=="None":
         block_final = latest_block()
 
+    #Get yes and no ballot wallets corresponding to the requested proposal id
+    (yes_ballot_address, no_ballot_address) = getWallets(proposal_id)
+    
     #Get unique votes for each of the ballot wallets
     yes = get_unique_votes(connector,_contract, DHN_contract_address,yes_ballot_address, int(block_init), int(block_final))
     no = get_unique_votes(connector,_contract, DHN_contract_address,no_ballot_address, int(block_init), int(block_final))
@@ -134,12 +179,9 @@ def winner(yes_ballot_address, no_ballot_address, block_init, block_final):
 
 
 def main():
-
-    yes_ballot_address = '0x2652000025cDb4bc1A9296117F0EEF8cf14b5f3b'
-    no_ballot_address = '0x54E09Bf67B215f2Bbe8c33310148d2f070a66218'
     overwrite_json()
     
 #main()
 (connector,_contract, DHN_contract_address)=init()
-#get_unique_votes(connector,_contract, DHN_contract_address, '0x5959D60345aB12befE24bd8d21EF53eBa7688f6D', 0, latest_block())
-print(overwrite_json())
+#print(get_unique_votes(connector,_contract, DHN_contract_address, '0x306A430F0E361e96E69D650067Eba3F73307b5C4', 0, latest_block()))
+print(getWallets("4be2a58f-931d-49aa-af14-cd2047bba153"))
