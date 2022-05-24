@@ -164,7 +164,7 @@ def winner(proposal_id, block_init, block_final):
 
     #Get yes and no ballot wallets corresponding to the requested proposal id
     (yes_ballot_address, no_ballot_address) = getWallets(proposal_id)
-    
+
     #Get unique votes for each of the ballot wallets
     yes = get_unique_votes(connector,_contract, DHN_contract_address,yes_ballot_address, int(block_init), int(block_final))
     no = get_unique_votes(connector,_contract, DHN_contract_address,no_ballot_address, int(block_init), int(block_final))
@@ -183,5 +183,6 @@ def main():
     
 #main()
 (connector,_contract, DHN_contract_address)=init()
+print(winner("4be2a58f-931d-49aa-af14-cd2047bba153", 0, latest_block()))
 #print(get_unique_votes(connector,_contract, DHN_contract_address, '0x306A430F0E361e96E69D650067Eba3F73307b5C4', 0, latest_block()))
-print(getWallets("4be2a58f-931d-49aa-af14-cd2047bba153"))
+#print(getWallets("4be2a58f-931d-49aa-af14-cd2047bba153"))
