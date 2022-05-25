@@ -1,20 +1,26 @@
 {
     "proposals": {
         "1": {
-            "desc": "New  idea",
-            "id": "ea716c0c-4014-4f86-bbb7-8250965a0bfc",
-            "yes_wallet": "0xababa4ad5bfd12883315d86802ba69fbfc169aee",
-            "no_wallet": "0xa8112420ab59a9dc0d68315f845e5ce04b2cfa68",
+            "desc": "New website",
+            "id": "8a9ffea9-9f9c-49b2-9cb7-36a961ff7a82",
+            "yes_wallet": "0x26b199b73c913886b3aaed37cfa6d2b4c7fede38",
+            "no_wallet": "0xba3ae2cdc6ba21b3e9238aac41a30ca4804a9b90",
             "status": "finished",
-            "winner": "tie"
+            "winner": "tie",
+            "final_yes_votes": 0,
+            "final_no_votes": 0
         },
         "2": {
-            "desc": "New voting system",
-            "id": "775b91bb-5616-4893-9de2-086f7fc41112",
-            "yes_wallet": "0x31dc7ce0567dadb3ce48ace5a35c21e6c4ee73b7",
-            "no_wallet": "0x8558278cc92eb99220a6ed47ce7788fa577a6db6",
+            "desc": "New Voting System",
+            "id": "0a5df539-343d-4d23-ae50-e2a90fcfc712",
+            "yes_wallet": "0x5de6a2cfbc288979bcb97cb4ade335e171c0c47a",
+            "no_wallet": "0x10ee72ce38449be4be6c1a355170217c40f80e0e",
             "status": "finished",
-            "winner": "tie"
+            "winner": "tie",
+            "final_yes_votes": 0,
+            "final_no_votes": 0
         }
     }
 }
+
+

@@ -115,16 +115,14 @@ def getWallets(proposal_id):
         if data['proposals']['1']['yes_wallet'] == "":
             return "Needs to be overwritten first"
 
-    # For each proposal inside the json file
-    for proposal in data['proposals']:
-        with open('proposals.json', 'r+') as f:
-            data = json.load(f)
+        # For each proposal inside the json file
+        for proposal in data['proposals']:
             #Get the proposal with the ID we want
             if data['proposals'][str(proposal)]['id'] ==  proposal_id:
                 yes_wallet = data['proposals'][str(proposal)]['yes_wallet']
                 no_wallet = data['proposals'][str(proposal)]['no_wallet']
                 return yes_wallet, no_wallet
-    
+        
     return "No proposal found with the id: "+ proposal_id
 
 def winner():
@@ -132,20 +130,20 @@ def winner():
     # Opens the json file
     with open('proposals.json', 'r+') as f:
         data = json.load(f)
-        # If the file has already been over writte, it ends the function
-        if data['proposals']['1']['yes_wallet'] == "":
-            return "Needs to be overwritten first"
+        # If the file has already been over written, it ends the function
+        if data['proposals']['1']['status'] == "finished":
+            return "The winners have already been calculated. Use GET /JSONInfo/API_KEY in order to see the finished JSON info"
 
-    # For each proposal inside the json file
-    for proposal in data['proposals']:
-        with open('proposals.json', 'r+') as f:
-            data = json.load(f)
+        # For each proposal inside the json file
+        for proposal in data['proposals']:
             #Get yes and no ballot wallets corresponding to the requested proposal id
             (yes_ballot_address, no_ballot_address) = getWallets(data['proposals'][str(proposal)]['id'])
 
             #Get unique votes for each of the ballot wallets
             yes = get_unique_votes(yes_ballot_address)
+            data['proposals'][str(proposal)]['final_yes_votes']=yes
             no = get_unique_votes(no_ballot_address)
+            data['proposals'][str(proposal)]['final_no_votes']=no
 
             # Announce who won
             if yes>no:
@@ -154,10 +152,10 @@ def winner():
                 data['proposals'][str(proposal)]['winner']="no"
             else:
                 data['proposals'][str(proposal)]['winner']="tie"
-            
+                
             # Update proposal status
             data['proposals'][str(proposal)]['status']="finished"
-            
+
             # Update JSON file
             f.seek(0)        # <--- should reset file position to the beginning.
             json.dump(data, f, indent=4)
@@ -179,11 +177,10 @@ def overwrite_json():
         # If the file has already been over writte, it ends the function
         if data['proposals']['1']['yes_wallet'] != "":
             return "Already overwritten"
-
-    # For each proposal inside the json file
-    for proposal in data['proposals']:
-        with open('proposals.json', 'r+') as f:
-            data = json.load(f)
+        print(data['proposals'])
+        # For each proposal inside the json file
+        for proposal in data['proposals']:
+            #print(proposal)
             #Generate yes and no adresses for each proposal
             yes_wallet = Wallet.newWallet().getAddress() # Create a random walle
             no_wallet = Wallet.newWallet().getAddress() # Create a random walle
@@ -196,8 +193,14 @@ def overwrite_json():
             json.dump(data, f, indent=4)
             f.truncate()     # remove remaining part
 
+        #Return the neew file contents to the POST requester (gets access to proposal IDs and wallets)
+        with open('proposals.json', 'r+') as f:
+            data = json.load(f)
+            return data
+
 def main():
     print("Working")
+    overwrite_json()
     
 #main()
 #print(winner(0, latest_block()))

@@ -1,20 +1,24 @@
 {
     "proposals": {
         "1": {
-            "desc": "New  idea",
+            "desc": "New website",
             "id": "",
             "yes_wallet": "",
             "no_wallet": "",
             "status": "On-going",
-            "winner": ""
+            "winner": "",
+            "final_yes_votes": "",
+            "final_no_votes": ""
         },
         "2": {
-            "desc": "New voting system",
+            "desc": "New Voting System",
             "id": "",
             "yes_wallet": "",
             "no_wallet": "",
             "status": "On-going",
-            "winner": ""
+            "winner": "",
+            "final_yes_votes": "",
+            "final_no_votes": ""
         }
     }
 }
