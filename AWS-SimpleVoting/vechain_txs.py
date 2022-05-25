@@ -167,18 +167,6 @@ def winner():
         data = json.load(f)
         return json.dumps(data, indent=4)
 
-#
-# Overwrites the provided JSON file
-#
-def upload_json():
-    with open('proposals2.json') as json_file:
-        json_data = json.load(json_file)  
-    
-        headers = { 'Accept' : 'application/json', 'Content-Type' : 'application/json'}
-
-        r = requests.post('http://127.0.0.1:5000/upload', data=json.dumps(json_data), headers=headers)
-
-        #return overwrite
 
 #
 # Overwrites the provided JSON file
@@ -217,6 +205,6 @@ def main():
     print("Working")
     
 #main()
-print(winner(0, latest_block()))
+#print(winner(0, latest_block()))
 #print(get_unique_votes(connector,_contract, DHN_contract_address, '0x306A430F0E361e96E69D650067Eba3F73307b5C4', 0, latest_block()))
 #print(getWallets("4be2a58f-931d-49aa-af14-cd2047bba153"))
