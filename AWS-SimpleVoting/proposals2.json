@@ -1,0 +1,20 @@
+{
+    "proposals": {
+        "1": {
+            "desc": "New website",
+            "id": "",
+            "yes_wallet": "",
+            "no_wallet": "",
+            "status": "On-going",
+            "winner": ""
+        },
+        "2": {
+            "desc": "New Voting System",
+            "id": "",
+            "yes_wallet": "",
+            "no_wallet": "",
+            "status": "On-going",
+            "winner": ""
+        }
+    }
+}
