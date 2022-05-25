@@ -5,14 +5,16 @@
             "id": "e38458f4-efdc-4430-9cd7-5d5c4456fa21",
             "yes_wallet": "0xe2bc4f881d3182134bb2bc7215830bbaa887b826",
             "no_wallet": "0xac088128fcc5ea5239354551b93160cc56f7abc0",
-            "status": "On-going"
+            "status": "On-going",
+            "winner": "tie"
         },
         "2": {
             "desc": "New Voting System",
             "id": "4be2a58f-931d-49aa-af14-cd2047bba153",
             "yes_wallet": "0x3480b0a231126c5f8d0f5fae1d5bc89b99573893",
             "no_wallet": "0x0cd975c06e1924d9644f0a627977fffc95239a97",
-            "status": "On-going"
+            "status": "On-going",
+            "winner": "tie"
         }
     }
 }

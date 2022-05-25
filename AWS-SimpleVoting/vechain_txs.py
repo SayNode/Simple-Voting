@@ -26,6 +26,10 @@ def init():
 #Get balance
 #
 def get_balance(connector,_contract, DHN_contract_address, wallet_address):
+    #Init connection
+    (connector,_contract, DHN_contract_address)=init()
+
+    #Call balance function
     balance_one = connector.call(
         caller=wallet_address, # fill in your caller address or all zero address
         contract=_contract,
@@ -35,39 +39,6 @@ def get_balance(connector,_contract, DHN_contract_address, wallet_address):
     )
     print("Wallet "+ wallet_address+" DHN balance:" + str(balance_one["decoded"]["0"]))
     return balance_one["decoded"]["0"]
-
-#
-# Overwrites the provided JSON file
-#
-def overwrite_json():
-
-    # Opens the json file
-    with open('proposals.json', 'r+') as f:
-        data = json.load(f)
-        # If the file has already been over writte, it ends the function
-        if data['proposals']['1']['yes_wallet'] != "":
-            return "Already overwritten"
-
-    # For each proposal inside the json file
-    for proposal in data['proposals']:
-        with open('proposals.json', 'r+') as f:
-            data = json.load(f)
-            #Generate yes and no adresses for each proposal
-            yes_wallet = Wallet.newWallet().getAddress() # Create a random walle
-            no_wallet = Wallet.newWallet().getAddress() # Create a random walle
-            data['proposals'][str(proposal)]['yes_wallet'] = yes_wallet 
-            data['proposals'][str(proposal)]['no_wallet'] = no_wallet 
-            # Generate random ID for each proposal
-            data['proposals'][str(proposal)]['id'] = str(uuid.uuid4()) 
-            # Just to look good
-            f.seek(0)        # <--- should reset file position to the beginning.
-            json.dump(data, f, indent=4)
-            f.truncate()     # remove remaining part
-    
-    # Return the overwritten JSON file so it can be used to be called by the front end
-    with open('proposals.json', 'r+') as f:
-        data = json.load(f)
-        return json.dumps(data)
 
 #
 # Get the latest block number
@@ -83,7 +54,9 @@ def latest_block():
 #
 #Get unique votes of a wallet address
 #
-def get_unique_votes(connector,_contract, DHN_contract_address, ballot_address, block_init, block_final):
+def get_unique_votes(ballot_address, block_init, block_final):
+
+    (connector,_contract, DHN_contract_address)=init()
     
     #Removes the "0x" from the address
     ballot_address = ballot_address[2:]
@@ -154,35 +127,94 @@ def getWallets(proposal_id):
     
     return "No proposal found with the id: "+ proposal_id
 
-def winner(proposal_id, block_init, block_final):
-    #Connect
-    (connector, _contract, DHN_contract_address) = init()
+def winner(block_init, block_final):
 
     #If there is no specified last block, than the last block processed is considered the last one
     if block_final=="None":
         block_final = latest_block()
 
-    #Get yes and no ballot wallets corresponding to the requested proposal id
-    (yes_ballot_address, no_ballot_address) = getWallets(proposal_id)
+    # Opens the json file
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        # If the file has already been over writte, it ends the function
+        if data['proposals']['1']['yes_wallet'] == "":
+            return "Needs to be overwritten first"
 
-    #Get unique votes for each of the ballot wallets
-    yes = get_unique_votes(connector,_contract, DHN_contract_address,yes_ballot_address, int(block_init), int(block_final))
-    no = get_unique_votes(connector,_contract, DHN_contract_address,no_ballot_address, int(block_init), int(block_final))
+    # For each proposal inside the json file
+    for proposal in data['proposals']:
+        with open('proposals.json', 'r+') as f:
+            data = json.load(f)
+            #Get yes and no ballot wallets corresponding to the requested proposal id
+            (yes_ballot_address, no_ballot_address) = getWallets(data['proposals'][str(proposal)]['id'])
 
-    # Announce who won
-    if yes>no:
-        return "The proposal was approved"
-    elif no>yes:
-        return "The proposal was rejected"
+            #Get unique votes for each of the ballot wallets
+            yes = get_unique_votes(yes_ballot_address, int(block_init), int(block_final))
+            no = get_unique_votes(no_ballot_address, int(block_init), int(block_final))
 
-    return "The voting ended in a tie"
+            # Announce who won
+            if yes>no:
+                data['proposals'][str(proposal)]['winner']="yes"
+            elif no>yes:
+                data['proposals'][str(proposal)]['winner']="no"
+            else:
+                data['proposals'][str(proposal)]['winner']="tie"
+            # Update JSON file
+            f.seek(0)        # <--- should reset file position to the beginning.
+            json.dump(data, f, indent=4)
+            f.truncate()     # remove remaining part
 
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        return json.dumps(data, indent=4)
+
+#
+# Overwrites the provided JSON file
+#
+def upload_json():
+    with open('proposals2.json') as json_file:
+        json_data = json.load(json_file)  
+    
+        headers = { 'Accept' : 'application/json', 'Content-Type' : 'application/json'}
+
+        r = requests.post('http://127.0.0.1:5000/upload', data=json.dumps(json_data), headers=headers)
+
+#
+# Overwrites the provided JSON file
+#
+def overwrite_json():
+
+    # Opens the json file
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        # If the file has already been over writte, it ends the function
+        if data['proposals']['1']['yes_wallet'] != "":
+            return "Already overwritten"
+
+    # For each proposal inside the json file
+    for proposal in data['proposals']:
+        with open('proposals.json', 'r+') as f:
+            data = json.load(f)
+            #Generate yes and no adresses for each proposal
+            yes_wallet = Wallet.newWallet().getAddress() # Create a random walle
+            no_wallet = Wallet.newWallet().getAddress() # Create a random walle
+            data['proposals'][str(proposal)]['yes_wallet'] = yes_wallet 
+            data['proposals'][str(proposal)]['no_wallet'] = no_wallet 
+            # Generate random ID for each proposal
+            data['proposals'][str(proposal)]['id'] = str(uuid.uuid4()) 
+            # Just to look good
+            f.seek(0)        # <--- should reset file position to the beginning.
+            json.dump(data, f, indent=4)
+            f.truncate()     # remove remaining part
+    
+    # Return the overwritten JSON file so it can be used to be called by the front end
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        return json.dumps(data)
 
 def main():
-    overwrite_json()
+    print("Working")
     
 #main()
-(connector,_contract, DHN_contract_address)=init()
-print(winner("4be2a58f-931d-49aa-af14-cd2047bba153", 0, latest_block()))
+print(winner(0, latest_block()))
 #print(get_unique_votes(connector,_contract, DHN_contract_address, '0x306A430F0E361e96E69D650067Eba3F73307b5C4', 0, latest_block()))
 #print(getWallets("4be2a58f-931d-49aa-af14-cd2047bba153"))
