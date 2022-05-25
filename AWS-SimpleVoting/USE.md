@@ -7,18 +7,21 @@
 ## Get current votes for a proposal:
 > curl --insecure  -X GET http://127.0.0.1:5000/CurrentVotes/**proposal_ID**/**API_KEY**
 
-returns an object with 3 fields: id, yes_votes, no_votes
+Returns an object with 3 fields (id, yes_votes, no_votes):
 > {"id": "775b91bb-5616-4893-9de2-086f7fc41112", "yes_votes": "0", "no_votes": "0"}
 
 ## Get current API server JSON file info
 > curl --insecure  -X GET http://127.0.0.1:5000/JSONInfo/**API_KEY**
 
-returns JSON info
+Returns JSON info of the current state of the JSON file in the API server, without calculating a winner:
+> {"proposals": {"1": {"desc": "New website", "id": "8a9ffea9-9f9c-49b2-9cb7-36a961ff7a82", "yes_wallet": "0x26b199b73c913886b3aaed37cfa6d2b4c7fede38", "no_wallet": "0xba3ae2cdc6ba21b3e9238aac41a30ca4804a9b90", "status": "on-going", "winner": "", "final_yes_votes": "", "final_no_votes": ""}, "2": {"desc": "New Voting System", "id": "0a5df539-343d-4d23-ae50-e2a90fcfc712", "yes_wallet": "0x5de6a2cfbc288979bcb97cb4ade335e171c0c47a", "no_wallet": "0x10ee72ce38449be4be6c1a355170217c40f80e0e", "status": "on-going", "winner": "", "final_yes_votes": "", "final_no_votes": ""}, "3": {"desc": "World cup Sponsorship", "id": "37e4c51b-b42f-415d-bfe7-45858e041984", "yes_wallet": "0x162f8a348cef8bf4e562d349d04282bc996f2475", "no_wallet": "0x5f8dfb44323f45fc8a618da957c5191b41fa7453", "status": "on-going", "winner": "", "final_yes_votes": "", "final_no_votes": ""}}}  
 
 ## Get winner for all proposals:
 > curl --insecure  -X GET http://127.0.0.1:5000/Winner/**API_KEY**
 
-returns JSON info
+Returns JSON info of the current state of the JSON file in the API server after calculating a winner:
+> {"proposals": {"1": {"desc": "New website", "id": "8a9ffea9-9f9c-49b2-9cb7-36a961ff7a82", "yes_wallet": "0x26b199b73c913886b3aaed37cfa6d2b4c7fede38", "no_wallet": "0xba3ae2cdc6ba21b3e9238aac41a30ca4804a9b90", "status": "finished", "winner": "tie", "final_yes_votes": 0, "final_no_votes": 0}, "2": {"desc": "New Voting System", "id": "0a5df539-343d-4d23-ae50-e2a90fcfc712", "yes_wallet": "0x5de6a2cfbc288979bcb97cb4ade335e171c0c47a", "no_wallet": "0x10ee72ce38449be4be6c1a355170217c40f80e0e", "status": "finished", "winner": "tie", "final_yes_votes": 0, "final_no_votes": 0}, "3": {"desc": "World cup Sponsorship", "id": "37e4c51b-b42f-415d-bfe7-45858e041984", "yes_wallet": "0x162f8a348cef8bf4e562d349d04282bc996f2475", "no_wallet": "0x5f8dfb44323f45fc8a618da957c5191b41fa7453", "status": "finished", "winner": "tie", "final_yes_votes": 0, "final_no_votes": 0}}}  
+
 
 # Post
 > curl -H "Content-Type: application/json" --data @**NameOfJSONFile**.json http://127.0.0.1:5000/UploadProposals/**API_KEY**
