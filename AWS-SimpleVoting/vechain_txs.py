@@ -129,10 +129,6 @@ def getWallets(proposal_id):
 
 def winner():
 
-    #If there is no specified last block, than the last block processed is considered the last one
-    #if block_final=="None":
-    #    block_final = latest_block()
-
     # Opens the json file
     with open('proposals.json', 'r+') as f:
         data = json.load(f)
@@ -158,6 +154,10 @@ def winner():
                 data['proposals'][str(proposal)]['winner']="no"
             else:
                 data['proposals'][str(proposal)]['winner']="tie"
+            
+            # Update proposal status
+            data['proposals'][str(proposal)]['status']="finished"
+            
             # Update JSON file
             f.seek(0)        # <--- should reset file position to the beginning.
             json.dump(data, f, indent=4)
@@ -165,7 +165,7 @@ def winner():
 
     with open('proposals.json', 'r+') as f:
         data = json.load(f)
-        return json.dumps(data, indent=4)
+        return data
 
 
 #
@@ -195,11 +195,6 @@ def overwrite_json():
             f.seek(0)        # <--- should reset file position to the beginning.
             json.dump(data, f, indent=4)
             f.truncate()     # remove remaining part
-    
-    # Return the overwritten JSON file so it can be used to be called by the front end
-    with open('proposals.json', 'r+') as f:
-        data = json.load(f)
-        return json.dumps(data)
 
 def main():
     print("Working")
