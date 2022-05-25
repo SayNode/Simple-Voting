@@ -54,7 +54,7 @@ def latest_block():
 #
 #Get unique votes of a wallet address
 #
-def get_unique_votes(ballot_address, block_init, block_final):
+def get_unique_votes(ballot_address):
 
     (connector,_contract, DHN_contract_address)=init()
     
@@ -72,8 +72,8 @@ def get_unique_votes(ballot_address, block_init, block_final):
     json_data = {
         "range": {
             "unit": "block",
-            "from": block_init,
-            "to": block_final
+            "from": 0,
+            "to": latest_block()
         },
         "options": {
             "offset": 0,
@@ -127,11 +127,11 @@ def getWallets(proposal_id):
     
     return "No proposal found with the id: "+ proposal_id
 
-def winner(block_init, block_final):
+def winner():
 
     #If there is no specified last block, than the last block processed is considered the last one
-    if block_final=="None":
-        block_final = latest_block()
+    #if block_final=="None":
+    #    block_final = latest_block()
 
     # Opens the json file
     with open('proposals.json', 'r+') as f:
@@ -148,8 +148,8 @@ def winner(block_init, block_final):
             (yes_ballot_address, no_ballot_address) = getWallets(data['proposals'][str(proposal)]['id'])
 
             #Get unique votes for each of the ballot wallets
-            yes = get_unique_votes(yes_ballot_address, int(block_init), int(block_final))
-            no = get_unique_votes(no_ballot_address, int(block_init), int(block_final))
+            yes = get_unique_votes(yes_ballot_address)
+            no = get_unique_votes(no_ballot_address)
 
             # Announce who won
             if yes>no:
@@ -177,6 +177,8 @@ def upload_json():
         headers = { 'Accept' : 'application/json', 'Content-Type' : 'application/json'}
 
         r = requests.post('http://127.0.0.1:5000/upload', data=json.dumps(json_data), headers=headers)
+
+        #return overwrite
 
 #
 # Overwrites the provided JSON file
