@@ -1,3 +1,34 @@
-
-
-
+{
+    "proposals": {
+        "1": {
+            "desc": "New house for",
+            "id": "1e116e97-1354-4e6a-b3e6-6ae5c2e7a58d",
+            "yes_wallet": "0xa342a89985b18887f4c6af5b075954c70585ce01",
+            "no_wallet": "0x98521797ccefcd644115bcd53b648aa1da3d18ac",
+            "status": "On-going",
+            "winner": "",
+            "final_yes_votes": "",
+            "final_no_votes": ""
+        },
+        "2": {
+            "desc": "New DAO",
+            "id": "32fa9cfe-6990-477b-b82f-d587020368b2",
+            "yes_wallet": "0x38a4b0867e7d7d39cfbdbc46e51154033960fa4f",
+            "no_wallet": "0x4193c5a351b9529d5638b2b1e0da37e18dfd3344",
+            "status": "On-going",
+            "winner": "",
+            "final_yes_votes": "",
+            "final_no_votes": ""
+        },
+        "3": {
+            "desc": "More minting",
+            "id": "d465a3a4-6024-4d83-bf0e-b33a1be17361",
+            "yes_wallet": "0x5f9677093a56b76497d2c77ceff79caa94a66220",
+            "no_wallet": "0xceb037f016a51cdb867421dd810db69492a2a079",
+            "status": "On-going",
+            "winner": "",
+            "final_yes_votes": "",
+            "final_no_votes": ""
+        }
+    }
+}

@@ -34,7 +34,7 @@ Returns JSON info of the current state of the JSON file in the API server after 
 returns JSON info from the overwritten JSON file within the API server. This info should be kept in a json file and gives the IDs of each proposal. You can write some script that preforms de CURL and then writes the info to a JSON file
 
 # Testing:
-curl -H "Content-Type: application/json" --data @proposals_to_upload.json http://127.0.0.1:5000/UploadProposals/**API_KEY** - Upload the info
+curl -H "Content-Type: application/json" --data @proposals_to_upload.json http://127.0.0.1:5000/UploadProposals/**API_KEY** - Upload the info (WORKS)
 
 curl --insecure  -X GET http://127.0.0.1:5000/CurrentVotes/**PROPOSAL_ID**/**API_KEY**
 
