@@ -1,26 +1,3 @@
-{
-    "proposals": {
-        "1": {
-            "desc": "New website",
-            "id": "8a9ffea9-9f9c-49b2-9cb7-36a961ff7a82",
-            "yes_wallet": "0x26b199b73c913886b3aaed37cfa6d2b4c7fede38",
-            "no_wallet": "0xba3ae2cdc6ba21b3e9238aac41a30ca4804a9b90",
-            "status": "finished",
-            "winner": "tie",
-            "final_yes_votes": 0,
-            "final_no_votes": 0
-        },
-        "2": {
-            "desc": "New Voting System",
-            "id": "0a5df539-343d-4d23-ae50-e2a90fcfc712",
-            "yes_wallet": "0x5de6a2cfbc288979bcb97cb4ade335e171c0c47a",
-            "no_wallet": "0x10ee72ce38449be4be6c1a355170217c40f80e0e",
-            "status": "finished",
-            "winner": "tie",
-            "final_yes_votes": 0,
-            "final_no_votes": 0
-        }
-    }
-}
+
 
 

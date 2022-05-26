@@ -1,7 +1,7 @@
 {
     "proposals": {
         "1": {
-            "desc": "New website",
+            "desc": "New house for",
             "id": "",
             "yes_wallet": "",
             "no_wallet": "",
@@ -11,7 +11,17 @@
             "final_no_votes": ""
         },
         "2": {
-            "desc": "New Voting System",
+            "desc": "New DAO",
+            "id": "",
+            "yes_wallet": "",
+            "no_wallet": "",
+            "status": "On-going",
+            "winner": "",
+            "final_yes_votes": "",
+            "final_no_votes": ""
+        },
+        "3": {
+            "desc": "More minting",
             "id": "",
             "yes_wallet": "",
             "no_wallet": "",
