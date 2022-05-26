@@ -2,6 +2,11 @@
 ![Upload Format JSON Example](/images/JSON_example.png "Upload Format JSON Example")
 # Finished Format (after all the proposals have been terminated)
 ![Upload Format JSON Example](/images/JSON_example_2.png "Upload Format JSON Example")
+
+# JSON files
+- **proposals-example.json**: has an example of how the proposals json should be. This can be copied and adapted, but should remain unaltered;
+- **proposals-to-upload.json**: the proposal that will be POSTed to the API server;
+- **proposals.json**: to simulate the json file that will be o the API server
 # Requests
 
 ## Get current votes for a proposal:
