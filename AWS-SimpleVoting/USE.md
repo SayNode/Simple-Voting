@@ -34,6 +34,16 @@ Returns JSON info of the current state of the JSON file in the API server after 
 returns JSON info from the overwritten JSON file within the API server. This info should be kept in a json file and gives the IDs of each proposal. You can write some script that preforms de CURL and then writes the info to a JSON file
 
 # Testing:
+- See if JSON info is posted and overwritten correctly;
+- Vote
+- GET current votes for 3 proposals
+- GET info (contents of JSON file in API server)
+- GET winners and verify that the voting is written in the JSON file and can't be overwritten
+- Vote again
+- Try GET winners again to see that it is not possible and that the votes remain the same
+- GET info again to verify the previous point
+- 
+# Testing code:
 curl -H "Content-Type: application/json" --data @proposals_to_upload.json http://127.0.0.1:5000/UploadProposals/**API_KEY** - Upload the info (WORKS)
 
 curl --insecure  -X GET http://127.0.0.1:5000/CurrentVotes/**PROPOSAL_ID**/**API_KEY**
