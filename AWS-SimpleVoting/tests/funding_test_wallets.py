@@ -45,6 +45,19 @@ def get_balance(connector,_contract, DHN_contract_address, wallet_address, num):
     print("Wallet"+str(num)+" "+ wallet_address+" DHN balance:" + str(balance_one["decoded"]["0"]))
     return balance_one["decoded"]["0"]
 
+def get_ballot_balance(connector,_contract, DHN_contract_address, wallet_address):
+
+    #Call balance function
+    balance_one = connector.call(
+        caller=wallet_address, # fill in your caller address or all zero address
+        contract=_contract,
+        func_name="balanceOf",
+        func_params=[wallet_address],
+        to=DHN_contract_address,
+    )
+    print("Wallet "+ wallet_address+" DHN balance:" + str(balance_one["decoded"]["0"]))
+    return balance_one["decoded"]["0"]
+
 def transfer_DHN(connector, DHN_contract_address, testwallet1, receiver_address, amount):
     connector.transfer_token(
         testwallet1, 
@@ -64,12 +77,34 @@ def main():
     (testwallet5, testWallet5_address)=wallet_import(5)
     (testwallet6, testWallet6_address)=wallet_import(6)
 
-    print("4) TRANSFERS")
+    print("Vote balances")
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        # For each proposal inside the json file
+        for proposal in data['proposals']:
+            if int(proposal) == 1:
+                yes_wallet_one= data['proposals'][str(proposal)]["yes_wallet"]
+                no_wallet_one = data['proposals'][str(proposal)]["no_wallet"]
+            if int(proposal) == 2:
+                yes_wallet_two= data['proposals'][str(proposal)]["yes_wallet"]
+                no_wallet_two= data['proposals'][str(proposal)]["no_wallet"]
+            if int(proposal) == 3:
+                yes_wallet_three= data['proposals'][str(proposal)]["yes_wallet"]
+                no_wallet_three= data['proposals'][str(proposal)]["no_wallet"]
+    
+    get_ballot_balance(connector,_contract, DHN_contract_address, yes_wallet_one)
+    get_ballot_balance(connector,_contract, DHN_contract_address, no_wallet_one)
+    get_ballot_balance(connector,_contract, DHN_contract_address, yes_wallet_two)
+    get_ballot_balance(connector,_contract, DHN_contract_address, no_wallet_two)
+    get_ballot_balance(connector,_contract, DHN_contract_address, yes_wallet_three)
+    get_ballot_balance(connector,_contract, DHN_contract_address, no_wallet_three)
+    
+    """ print("4) TRANSFERS")
     transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet2_address, 2)
     transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet3_address, 2)
     transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet4_address, 2)
     transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet5_address, 2)
-    transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet6_address, 2)
+    transfer_DHN(connector, DHN_contract_address, testwallet1, testWallet6_address, 200)
 
     time.sleep(10)
     print("5) BALANCES")
@@ -78,6 +113,6 @@ def main():
     get_balance(connector,_contract, DHN_contract_address, testWallet3_address, 3)
     get_balance(connector,_contract, DHN_contract_address, testWallet4_address, 4)
     get_balance(connector,_contract, DHN_contract_address, testWallet5_address, 5)
-    get_balance(connector,_contract, DHN_contract_address, testWallet6_address, 6)
+    get_balance(connector,_contract, DHN_contract_address, testWallet6_address, 6)  """
 
 main()

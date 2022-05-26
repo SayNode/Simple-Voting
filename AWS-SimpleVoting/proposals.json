@@ -2,33 +2,33 @@
     "proposals": {
         "1": {
             "desc": "New house for",
-            "id": "1e116e97-1354-4e6a-b3e6-6ae5c2e7a58d",
-            "yes_wallet": "0xa342a89985b18887f4c6af5b075954c70585ce01",
-            "no_wallet": "0x98521797ccefcd644115bcd53b648aa1da3d18ac",
-            "status": "On-going",
-            "winner": "",
-            "final_yes_votes": "",
-            "final_no_votes": ""
+            "id": "2ba3a00c-8f87-495b-a4ea-6d97227292fb",
+            "yes_wallet": "0x9475ddbc4b3ed29f5bb911a3a635d5378640bdb7",
+            "no_wallet": "0x5c698f60b064d35bcc1944d297afea49658d6098",
+            "status": "finished",
+            "winner": "tie",
+            "final_yes_votes": 2,
+            "final_no_votes": 2
         },
         "2": {
             "desc": "New DAO",
-            "id": "32fa9cfe-6990-477b-b82f-d587020368b2",
-            "yes_wallet": "0x38a4b0867e7d7d39cfbdbc46e51154033960fa4f",
-            "no_wallet": "0x4193c5a351b9529d5638b2b1e0da37e18dfd3344",
-            "status": "On-going",
-            "winner": "",
-            "final_yes_votes": "",
-            "final_no_votes": ""
+            "id": "5a7f5ffe-b5f4-490c-9771-20a976b176d0",
+            "yes_wallet": "0x452e082c7841abf248a323ba0815ac382056054e",
+            "no_wallet": "0xfc9de5f814690c92213ec0b46dbb111c5b92df0e",
+            "status": "finished",
+            "winner": "yes",
+            "final_yes_votes": 3,
+            "final_no_votes": 2
         },
         "3": {
             "desc": "More minting",
-            "id": "d465a3a4-6024-4d83-bf0e-b33a1be17361",
-            "yes_wallet": "0x5f9677093a56b76497d2c77ceff79caa94a66220",
-            "no_wallet": "0xceb037f016a51cdb867421dd810db69492a2a079",
-            "status": "On-going",
-            "winner": "",
-            "final_yes_votes": "",
-            "final_no_votes": ""
+            "id": "f812860c-4b06-45ac-97d3-b3796dfc77fb",
+            "yes_wallet": "0xcf3c833bcd199d36be83c065d216261c6b95c770",
+            "no_wallet": "0x0b391f7d37cb347488ccd0d2b83b2158b4128474",
+            "status": "finished",
+            "winner": "no",
+            "final_yes_votes": 2,
+            "final_no_votes": 3
         }
     }
 }

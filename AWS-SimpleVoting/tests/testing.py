@@ -30,9 +30,9 @@ def wallet_import(num):
     testWallet_address= testwallet.getAddress()
     return testwallet, testWallet_address
 
-def transfer_DHN(connector, DHN_contract_address, testwallet1, receiver_address, amount):
+def transfer_DHN(connector, DHN_contract_address, testwallet, receiver_address, amount):
     connector.transfer_token(
-        testwallet1, 
+        testwallet, 
         to=receiver_address,
         token_contract_addr= DHN_contract_address, 
         amount_in_wei=amount
@@ -49,10 +49,22 @@ def main():
     (testwallet5, testWallet5_address)=wallet_import(5)
     (testwallet6, testWallet6_address)=wallet_import(6)
 
+    with open('proposals.json', 'r+') as f:
+        data = json.load(f)
+        # For each proposal inside the json file
+        for proposal in data['proposals']:
+            if int(proposal) == 1:
+                yes_wallet_one= data['proposals'][str(proposal)]["yes_wallet"]
+                no_wallet_one = data['proposals'][str(proposal)]["no_wallet"]
+            if int(proposal) == 2:
+                yes_wallet_two= data['proposals'][str(proposal)]["yes_wallet"]
+                no_wallet_two= data['proposals'][str(proposal)]["no_wallet"]
+            if int(proposal) == 3:
+                yes_wallet_three= data['proposals'][str(proposal)]["yes_wallet"]
+                no_wallet_three= data['proposals'][str(proposal)]["no_wallet"]
+
     # First prop will tie with two votes by the same person and another one on "yes" 
     # and two different votes for "no"
-    yes_wallet_one= "0xa342a89985b18887f4c6af5b075954c70585ce01"
-    no_wallet_one = "0x98521797ccefcd644115bcd53b648aa1da3d18ac"
     transfer_DHN(connector, DHN_contract_address, testwallet1, yes_wallet_one, 1)#1-0
     transfer_DHN(connector, DHN_contract_address, testwallet1, yes_wallet_one, 1)#1-0
     transfer_DHN(connector, DHN_contract_address, testwallet2, yes_wallet_one, 1)#2-0
@@ -61,8 +73,6 @@ def main():
     
 
     # Second prop will "win" 3 votes for yes 2 votes for no (one vote extra by one of the same person)
-    yes_wallet_two= "0x38a4b0867e7d7d39cfbdbc46e51154033960fa4f"
-    no_wallet_two= "0x4193c5a351b9529d5638b2b1e0da37e18dfd3344"
     transfer_DHN(connector, DHN_contract_address, testwallet1, yes_wallet_two, 1)#1-0
     transfer_DHN(connector, DHN_contract_address, testwallet2, yes_wallet_two, 1)#2-0
     transfer_DHN(connector, DHN_contract_address, testwallet3, yes_wallet_two, 1)#3-0
@@ -71,8 +81,6 @@ def main():
     transfer_DHN(connector, DHN_contract_address, testwallet5, no_wallet_two, 1)#3-2
 
     # Third prop will "lose" 2 votes for yes (two extra votes by the same people) and 3 votes for no
-    yes_wallet_three= "0x5f9677093a56b76497d2c77ceff79caa94a66220"
-    no_wallet_three= "0xceb037f016a51cdb867421dd810db69492a2a079"
     transfer_DHN(connector, DHN_contract_address, testwallet1, yes_wallet_three, 1)#1-0
     transfer_DHN(connector, DHN_contract_address, testwallet2, yes_wallet_three, 1)#2-0
     transfer_DHN(connector, DHN_contract_address, testwallet1, yes_wallet_three, 1)#2-0
@@ -80,3 +88,5 @@ def main():
     transfer_DHN(connector, DHN_contract_address, testwallet4, no_wallet_three, 1)#2-1
     transfer_DHN(connector, DHN_contract_address, testwallet5, no_wallet_three, 1)#2-2
     transfer_DHN(connector, DHN_contract_address, testwallet6, no_wallet_three, 1)#2-3
+
+main()
