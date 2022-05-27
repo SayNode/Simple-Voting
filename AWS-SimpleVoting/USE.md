@@ -7,6 +7,10 @@
 - **proposals-example.json**: has an example of how the proposals json should be. This can be copied and adapted, but should remain unaltered;
 - **proposals-to-upload.json**: the proposal that will be POSTed to the API server;
 - **proposals.json**: to simulate the json file that will be o the API server
+
+# Rules
+- After the "GET winner" is called, the votes are sealed and can't be recounted. Every vote after this is not accounted for. This includes the "GET currentvotes" which will give out the established votes after "GET winner" was called. 
+
 # Requests
 
 ## Get current votes for a proposal:
