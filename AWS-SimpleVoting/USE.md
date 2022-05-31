@@ -13,6 +13,11 @@
 
 # Requests
 
+# Post
+> curl -H "Content-Type: application/json" --data @**NameOfJSONFile**.json http://127.0.0.1:5000/UploadProposals/**API_KEY**
+
+returns JSON info from the overwritten JSON file within the API server. This info should be kept in a json file and gives the IDs of each proposal. You can write some script that preforms de CURL and then writes the info to a JSON file
+
 ## Get current votes for a proposal:
 > curl --insecure  -X GET http://127.0.0.1:5000/CurrentVotes/**proposal_ID**/**API_KEY**
 
@@ -30,12 +35,6 @@ Returns JSON info of the current state of the JSON file in the API server, witho
 
 Returns JSON info of the current state of the JSON file in the API server after calculating a winner:
 > {"proposals": {"1": {"desc": "New website", "id": "8a9ffea9-9f9c-49b2-9cb7-36a961ff7a82", "yes_wallet": "0x26b199b73c913886b3aaed37cfa6d2b4c7fede38", "no_wallet": "0xba3ae2cdc6ba21b3e9238aac41a30ca4804a9b90", "status": "finished", "winner": "tie", "final_yes_votes": 0, "final_no_votes": 0}, "2": {"desc": "New Voting System", "id": "0a5df539-343d-4d23-ae50-e2a90fcfc712", "yes_wallet": "0x5de6a2cfbc288979bcb97cb4ade335e171c0c47a", "no_wallet": "0x10ee72ce38449be4be6c1a355170217c40f80e0e", "status": "finished", "winner": "tie", "final_yes_votes": 0, "final_no_votes": 0}, "3": {"desc": "World cup Sponsorship", "id": "37e4c51b-b42f-415d-bfe7-45858e041984", "yes_wallet": "0x162f8a348cef8bf4e562d349d04282bc996f2475", "no_wallet": "0x5f8dfb44323f45fc8a618da957c5191b41fa7453", "status": "finished", "winner": "tie", "final_yes_votes": 0, "final_no_votes": 0}}}  
-
-
-# Post
-> curl -H "Content-Type: application/json" --data @**NameOfJSONFile**.json http://127.0.0.1:5000/UploadProposals/**API_KEY**
-
-returns JSON info from the overwritten JSON file within the API server. This info should be kept in a json file and gives the IDs of each proposal. You can write some script that preforms de CURL and then writes the info to a JSON file
 
 # Testing:
 - See if JSON info is posted and overwritten correctly;
