@@ -16,10 +16,10 @@ def init():
     #https://mainnet.veblocks.net
     #SayNode testnet node : http://3.71.71.72:8669/doc/swagger-ui/
     #SayNode mainnet node : http://3.124.193.149:8669/doc/swagger-ui/
-    connector = Connect("http://3.71.71.72:8669")
+    connector = Connect("http://3.124.193.149:8669")
     print("------------------IMPORT DHN CONTRACT------------------\n")
     _contract = Contract.fromFile("./build/contracts/DHN.json")
-    DHN_contract_address = '0x0867dd816763BB18e3B1838D8a69e366736e87a1'
+    DHN_contract_address = '0x8e57aadF0992AfCC41F7843656C6c7129f738F7b'
     return connector, _contract, DHN_contract_address
 
 #
@@ -31,7 +31,7 @@ def get_balance(connector,_contract, DHN_contract_address, wallet_address):
 
     #Call balance function
     balance_one = connector.call(
-        caller=wallet_address, # fill in your caller address or all zero address
+        caller='0x0000000000000000000000000000000000000000', # fill in your caller address or all zero address
         contract=_contract,
         func_name="balanceOf",
         func_params=[wallet_address],
@@ -48,7 +48,7 @@ def latest_block():
     'accept': 'application/json',
     }
 
-    response = requests.get('https://testnet.veblocks.net/blocks/best', headers=headers)
+    response = requests.get('https://mainnet.veblocks.net/blocks/best', headers=headers)
     return response.json()["number"]
 
 #
@@ -90,7 +90,7 @@ def get_unique_votes(ballot_address):
 
     # Get all txs of money (aka votes) to the specific ballot wallet
     #https://mainnet.veblocks.net/logs/transfer
-    response = requests.post('https://testnet.veblocks.net/logs/event', headers=headers, json=json_data)
+    response = requests.post('https://mainnet.veblocks.net/logs/event', headers=headers, json=json_data)
 
     # Goes through all the DHN txs the ballot (topic2) received
     for i in range(len(response.json())):
